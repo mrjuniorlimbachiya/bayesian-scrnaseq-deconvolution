@@ -1,0 +1,233 @@
+TY  - JOUR
+AU  - Cheng, Z.
+TI  - Transcriptomic analysis of the Non-Obstructive Azoospermia (NOA) to address gene expression regulation in human testis
+JO  - Systems Biology in Reproductive Medicine
+VL  - 69
+IS  - 3
+PY  - 2023
+ER  -
+
+TY  - JOUR
+AU  - Chu, T.
+AU  - Wang, Z.
+AU  - Pe'er, D.
+AU  - Danko, C. G.
+TI  - Cell type and gene expression deconvolution with BayesPrism enables Bayesian integrative analysis across bulk and single-cell RNA sequencing in oncology
+JO  - Nature Cancer
+VL  - 3
+SP  - 505
+EP  - 517
+PY  - 2022
+ER  -
+
+TY  - JOUR
+AU  - Wang, X.
+AU  - Park, J.
+AU  - Susztak, K.
+AU  - Zhang, N. R.
+AU  - Li, M.
+TI  - Bulk tissue cell type deconvolution with multi-subject single-cell expression reference
+JO  - Nature Communications
+VL  - 10
+SP  - 380
+PY  - 2019
+ER  -
+
+TY  - JOUR
+AU  - Newman, A. M.
+TI  - Determining cell type abundance and expression from bulk tissues with digital cytometry
+JO  - Nature Biotechnology
+VL  - 37
+SP  - 773
+EP  - 782
+PY  - 2019
+ER  -
+
+TY  - JOUR
+AU  - Hippen, A. A.
+AU  - Omran, D. K.
+AU  - Weber, L. M.
+TI  - Performance of computational algorithms to deconvolve heterogeneous bulk ovarian tumour tissue depends on experimental factors
+JO  - Genome Biology
+VL  - 24
+SP  - 239
+PY  - 2023
+ER  -
+
+TY  - JOUR
+AU  - Tran, K. A.
+AU  - Addala, V.
+AU  - Johnston, R. L.
+TI  - Performance of tumour microenvironment deconvolution methods in breast cancer using single-cell simulated bulk mixtures
+JO  - Nature Communications
+VL  - 14
+SP  - 5758
+PY  - 2023
+ER  -
+
+TY  - JOUR
+AU  - Hu, M.
+AU  - Chikina, M.
+TI  - Heterogeneous pseudobulk simulation enables realistic benchmarking of cell-type deconvolution methods
+JO  - Genome Biology
+VL  - 25
+SP  - 169
+PY  - 2024
+ER  -
+
+TY  - JOUR
+TI  - Single-cell transcriptomic atlas of the human testis across the reproductive lifespan
+JO  - Nature Aging
+PY  - 2025
+ER  -
+
+TY  - JOUR
+AU  - Tang, X.
+TI  - Single-cell transcriptomics-based study of transcriptional regulatory features in the non-obstructive azoospermia testis
+JO  - Frontiers in Genetics
+VL  - 13
+SP  - 875762
+PY  - 2022
+ER  -
+
+TY  - JOUR
+TI  - scRNA-seq and scATAC-seq reveal that Sertoli cell mediates spermatogenesis disorders through stage-specific communications in non-obstructive azoospermia
+JO  - eLife
+PY  - 2025
+ER  -
+
+TY  - JOUR
+TI  - Single-cell multi-omics analysis reveals dysfunctional Wnt signalling of spermatogonia in non-obstructive azoospermia
+JO  - PMC10273265
+PY  - 2023
+ER  -
+
+TY  - JOUR
+AU  - Ewels, P. A.
+TI  - The nf-core framework for community-curated bioinformatics pipelines
+JO  - Nature Biotechnology
+VL  - 38
+SP  - 276
+EP  - 278
+PY  - 2020
+ER  -
+
+TY  - JOUR
+AU  - Di Tommaso, P.
+TI  - Nextflow enables reproducible computational workflows
+JO  - Nature Biotechnology
+VL  - 35
+SP  - 316
+EP  - 319
+PY  - 2017
+ER  -
+
+TY  - JOUR
+AU  - Love, M. I.
+AU  - Huber, W.
+AU  - Anders, S.
+TI  - Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2
+JO  - Genome Biology
+VL  - 15
+SP  - 550
+PY  - 2014
+ER  -
+
+TY  - JOUR
+AU  - Patro, R.
+AU  - Duggal, G.
+AU  - Love, M. I.
+AU  - Irizarry, R. A.
+AU  - Kingsford, C.
+TI  - Salmon provides fast and bias-aware quantification of transcript expression
+JO  - Nature Methods
+VL  - 14
+IS  - 4
+SP  - 417
+EP  - 419
+PY  - 2017
+ER  -
+
+TY  - JOUR
+AU  - Hao, Y.
+TI  - Dictionary learning for integrative, multimodal and scalable single-cell analysis
+JO  - Nature Biotechnology
+VL  - 42
+SP  - 293
+EP  - 304
+PY  - 2024
+ER  -
+
+TY  - JOUR
+AU  - Soneson, C.
+AU  - Love, M. I.
+AU  - Robinson, M. D.
+TI  - Differential analyses for RNA-seq: transcript-level estimates improve gene-level inferences
+JO  - F1000Research
+VL  - 4
+SP  - 1521
+PY  - 2015
+ER  -
+
+TY  - JOUR
+AU  - Gansner, E. R.
+AU  - North, S. C.
+TI  - An open graph visualization system and its applications to software engineering
+JO  - Software: Practice and Experience
+VL  - 30
+IS  - 11
+SP  - 1203
+EP  - 1233
+PY  - 2000
+ER  -
+
+TY  - DATA
+TI  - Bulk RNA-seq of human testicular tissue across male infertility phenotypes
+PY  - 2023
+PB  - NCBI Gene Expression Omnibus
+UR  - https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE216907
+N1  - GEO Accession GSE216907
+ER  -
+
+TY  - DATA
+TI  - Single-cell RNA-seq atlas of the human testis across the reproductive lifespan
+PY  - 2025
+PB  - NCBI Gene Expression Omnibus
+UR  - https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE254315
+N1  - GEO Accession GSE254315
+ER  -
+
+TY  - COMP
+TI  - MeluXina Supercomputer Documentation
+PY  - 2026
+PB  - LuxProvide / EuroHPC Joint Undertaking
+UR  - https://docs.lxp.lu
+ER  -
+
+TY  - COMP
+TI  - nf-core/rnaseq pipeline documentation
+PY  - 2026
+PB  - nf-core
+UR  - https://nf-co.re/rnaseq
+ER  -
+
+TY  - COMP
+TI  - Apptainer (Singularity) Documentation
+PY  - 2026
+PB  - Apptainer Project
+UR  - https://apptainer.org/docs/
+ER  -
+
+TY  - COMP
+TI  - BayesPrism: Bayesian bulk RNA-seq deconvolution
+PY  - 2026
+PB  - Danko Lab
+UR  - https://github.com/Danko-Lab/BayesPrism
+ER  -
+
+TY  - COMP
+TI  - Graphviz: Open source graph visualization software
+PY  - 2026
+PB  - Graphviz Project
+UR  - https://graphviz.org
+ER  -

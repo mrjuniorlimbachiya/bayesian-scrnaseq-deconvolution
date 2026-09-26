@@ -1,0 +1,27 @@
+// Pipeline architecture diagram (Figure 4-1 in the dissertation).
+// Render with: dot -Tpng pipeline_architecture.dot -o pipeline_architecture.png
+digraph pipeline {
+    rankdir=LR;
+    node [shape=box, style="rounded,filled", fillcolor="#eaf2f8", fontname="Helvetica"];
+
+    bulk   [label="Bulk RNA-seq\n(GSE216907)\n14 samples SRA"];
+    sc     [label="scRNA-seq ref.\n(GSE254315)\n25 samples 10x"];
+    fq     [label="SRA -> FASTQ\n(fasterq-dump + pigz)"];
+    seurat [label="Seurat QC ->\nnormalise -> cluster -> annotate"];
+    nfcore [label="nf-core/rnaseq\nFastQC -> TrimGalore\n-> Salmon quant"];
+    ref    [label="Annotated scRNA\nreference matrix\n(11 cell types)"];
+    counts [label="Gene-level counts\n(tximport)"];
+    deseq  [label="DESeq2\ndifferential expression"];
+    bprism [label="BayesPrism\nBayesian deconvolution"];
+    integ  [label="DEG - cell-type\nintegration"];
+    enrich [label="GO / KEGG\nenrichment"];
+
+    bulk -> fq -> nfcore -> counts;
+    sc -> seurat -> ref;
+    ref -> bprism;
+    counts -> deseq;
+    counts -> bprism;
+    deseq -> integ;
+    bprism -> integ;
+    integ -> enrich;
+}

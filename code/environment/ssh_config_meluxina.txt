@@ -1,0 +1,11 @@
+# SSH client configuration for MeluXina access.
+# Place in ~/.ssh/config (or append to it). Update IdentityFile path to match
+# your local system.
+
+Host meluxina
+    Hostname login.lxp.lu
+    User u103869
+    Port 8822
+    IdentityFile ~/.ssh/id_ed25519_mlux
+    IdentitiesOnly yes
+    ForwardAgent no

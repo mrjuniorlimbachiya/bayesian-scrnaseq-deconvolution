@@ -1,0 +1,15 @@
+sample,fastq_1,fastq_2,strandedness
+SRR9849353,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849353_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849353_2.fastq.gz,auto
+SRR9849354,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849354_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849354_2.fastq.gz,auto
+SRR9849355,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849355_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849355_2.fastq.gz,auto
+SRR9849356,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849356_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849356_2.fastq.gz,auto
+SRR9849357,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849357_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849357_2.fastq.gz,auto
+SRR9849358,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849358_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849358_2.fastq.gz,auto
+SRR9849359,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849359_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849359_2.fastq.gz,auto
+SRR9849360,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849360_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849360_2.fastq.gz,auto
+SRR9849361,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849361_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849361_2.fastq.gz,auto
+SRR9849362,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849362_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849362_2.fastq.gz,auto
+SRR9849363,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849363_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849363_2.fastq.gz,auto
+SRR9849364,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849364_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849364_2.fastq.gz,auto
+SRR9849365,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849365_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849365_2.fastq.gz,auto
+SRR9849366,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849366_1.fastq.gz,/mnt/tier2/users/u103869/bulk_rna_seq_project/fastq_files/SRR9849366_2.fastq.gz,auto

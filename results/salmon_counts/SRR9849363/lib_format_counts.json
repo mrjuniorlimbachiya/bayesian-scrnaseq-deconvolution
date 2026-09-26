@@ -1,0 +1,22 @@
+{
+    "read_files": "[ /home/users/u103869/bulk_rna_seq_project/trimmed_fastq/SRR9849363_1_val_1.fq.gz, /home/users/u103869/bulk_rna_seq_project/trimmed_fastq/SRR9849363_2_val_2.fq.gz]",
+    "expected_format": "IU",
+    "compatible_fragment_ratio": 1.0,
+    "num_compatible_fragments": 19792662,
+    "num_assigned_fragments": 19792662,
+    "num_frags_with_concordant_consistent_mappings": 19552414,
+    "num_frags_with_inconsistent_or_orphan_mappings": 480827,
+    "strand_mapping_bias": 0.5004824468221674,
+    "MSF": 0,
+    "OSF": 0,
+    "ISF": 9785640,
+    "MSR": 0,
+    "OSR": 0,
+    "ISR": 9766774,
+    "SF": 240245,
+    "SR": 240582,
+    "MU": 0,
+    "OU": 0,
+    "IU": 0,
+    "U": 0
+}

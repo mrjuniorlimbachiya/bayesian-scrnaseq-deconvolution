@@ -1,0 +1,15 @@
+Sample_ID,GEO_Accession,Diagnosis,Age_Years,SRR_Accession
+NOA1,GSM6697637,Non-Obstructive Azoospermia,32,SRR9849353
+NOA2,GSM6697638,Non-Obstructive Azoospermia,34,SRR9849354
+NOA3,GSM6697639,Non-Obstructive Azoospermia,38,SRR9849355
+NOA4,GSM6697640,Non-Obstructive Azoospermia,30,SRR9849356
+NOA5,GSM6697641,Non-Obstructive Azoospermia,30,SRR9849357
+NOA6,GSM6697642,Non-Obstructive Azoospermia,30,SRR9849358
+NOA7,GSM6697643,Non-Obstructive Azoospermia,33,SRR9849359
+NOA8,GSM6697644,Non-Obstructive Azoospermia,35,SRR9849360
+OA1,GSM6697645,Obstructive Azoospermia,30,SRR9849361
+OA2,GSM6697646,Obstructive Azoospermia,38,SRR9849362
+VA1,GSM6697647,Varicocele,28,SRR9849363
+VA2,GSM6697648,Varicocele,29,SRR9849364
+CN1,GSM6697649,Normal Control,14-64 (pooled RNA),SRR9849365
+AN1,GSM6697650,Normal Control,Not reported,SRR9849366

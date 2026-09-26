@@ -1,0 +1,13 @@
+{
+    "salmon_version": "1.10.0",
+    "index": "/home/users/u103869/bulk_rna_seq_project/transcript_index",
+    "libType": "A",
+    "mates1": "/home/users/u103869/bulk_rna_seq_project/trimmed_fastq/SRR9849361_1_val_1.fq.gz",
+    "mates2": "/home/users/u103869/bulk_rna_seq_project/trimmed_fastq/SRR9849361_2_val_2.fq.gz",
+    "threads": "8",
+    "validateMappings": [],
+    "gcBias": [],
+    "seqBias": [],
+    "output": "/home/users/u103869/bulk_rna_seq_project/counts/SRR9849361",
+    "auxDir": "aux_info"
+}

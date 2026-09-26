@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)file:///C:/Users/limba/Downloads/scrna_dashboard.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>scRNA-seq Analysis Dashboard — GSE254315</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --card: #1a2235;
+    --border: #2a3650;
+    --teal: #00d4b8;
+    --blue: #4f9cf9;
+    --purple: #a78bfa;
+    --red: #f87171;
+    --orange: #fb923c;
+    --green: #4ade80;
+    --yellow: #fbbf24;
+    --text: #e2e8f0;
+    --muted: #64748b;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  header {
+    background: linear-gradient(135deg, #0f1f3d 0%, #0a0e1a 60%);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0,212,184,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(0,212,184,0.12);
+    color: var(--teal);
+    border: 1px solid rgba(0,212,184,0.3);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  header h1 span { color: var(--teal); }
+  header p { color: var(--muted); font-size: 14px; }
+  .header-meta {
+    display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex; align-items: center; gap: 8px;
+    color: var(--muted); font-size: 12px;
+  }
+  .meta-dot { width:8px; height:8px; border-radius:50%; background:var(--teal); }
+
+  /* ── Layout ── */
+  main { padding: 32px 48px; max-width: 1400px; }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #fff;
+    margin: 40px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-title .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--teal); flex-shrink: 0;
+  }
+
+  /* ── Stats Grid ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .stat-card.teal::before  { background: var(--teal); }
+  .stat-card.blue::before  { background: var(--blue); }
+  .stat-card.red::before   { background: var(--red); }
+  .stat-card.green::before { background: var(--green); }
+  .stat-card.purple::before{ background: var(--purple); }
+  .stat-card.orange::before{ background: var(--orange); }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .stat-value { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 600; color: #fff; }
+  .stat-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  /* ── Chart Cards ── */
+  .chart-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .chart-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .chart-grid-1 { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
+
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    overflow: hidden;
+  }
+  .chart-card h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .chart-card p {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  /* ── QC Comparison Bars ── */
+  .qc-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .qc-label { font-size: 11px; color: var(--muted); width: 90px; flex-shrink: 0; font-family: 'JetBrains Mono', monospace; }
+  .qc-bar-wrap { flex: 1; background: rgba(255,255,255,0.05); border-radius: 4px; height: 8px; overflow:hidden; }
+  .qc-bar { height: 100%; border-radius: 4px; transition: width 1s ease; }
+  .qc-val { font-size: 11px; color: #fff; width: 70px; text-align:right; font-family:'JetBrains Mono',monospace; flex-shrink:0; }
+
+  /* ── Cell Type Donut ── */
+  .ct-row {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 10px; padding: 8px 12px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+    cursor: default;
+  }
+  .ct-row:hover { border-color: var(--border); }
+  .ct-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .ct-name { flex: 1; font-size: 12px; color: var(--text); font-weight: 500; }
+  .ct-bar-wrap { width: 120px; background: rgba(255,255,255,0.05); border-radius: 4px; height: 6px; overflow:hidden; }
+  .ct-bar { height: 100%; border-radius: 4px; }
+  .ct-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); width: 55px; text-align:right; }
+  .ct-pct { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #fff; width: 40px; text-align:right; font-weight:600; }
+
+  /* ── UMAP Placeholder ── */
+  .umap-wrap {
+    position: relative;
+    background: radial-gradient(ellipse at center, #0d1b2e 0%, #080c14 100%);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  canvas { border-radius: 10px; }
+
+  /* ── Marker Gene Table ── */
+  .marker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .marker-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .marker-card-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .marker-gene {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 6px;
+  }
+  .gene-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    flex: 1;
+  }
+  .gene-bar-wrap { width: 60px; background: rgba(255,255,255,0.06); border-radius:3px; height:5px; overflow:hidden; }
+  .gene-bar { height:100%; border-radius:3px; }
+  .gene-expr { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); width:28px; text-align:right; }
+
+  /* ── Pipeline timeline ── */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding-bottom: 20px; position: relative;
+  }
+  .tl-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 16px; top: 32px;
+    width: 2px; bottom: 0;
+    background: var(--border);
+  }
+  .tl-dot {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: flex; align-items:center; justify-content:center;
+    font-size: 13px; font-weight: 700;
+    flex-shrink: 0; position: relative; z-index: 1;
+  }
+  .tl-dot.done { background: rgba(0,212,184,0.15); color: var(--teal); border: 2px solid var(--teal); }
+  .tl-content { flex: 1; padding-top: 4px; }
+  .tl-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+  .tl-desc { font-size: 11px; color: var(--muted); }
+  .tl-badge {
+    display: inline-block;
+    background: rgba(0,212,184,0.1);
+    color: var(--teal);
+    border: 1px solid rgba(0,212,184,0.2);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 60px;
+    padding: 24px 48px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">scRNA-seq Analysis</div>
+  <h1>GSE254315 <span>Single-Cell Reference</span></h1>
+  <p>Human Testicular Tissue — 25 Samples — BayesPrism Reference Construction</p>
+  <div class="header-meta">
+    <div class="meta-item"><div class="meta-dot"></div> Manthan Limbachiya | 25022776</div>
+    <div class="meta-item"><div class="meta-dot" style="background:#4f9cf9"></div> Supervisor: Aideen Kileen | University of Limerick</div>
+    <div class="meta-item"><div class="meta-dot" style="background:#a78bfa"></div> Dataset: GSE254315 | MeluXina HPC</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- QC SUMMARY STATS -->
+  <div class="section-title"><div class="dot"></div> QC Summary Statistics</div>
+  <div class="stats-grid">
+    <div class="stat-card teal">
+      <div class="stat-label">Raw Cells</div>
+      <div class="stat-value">146,292</div>
+      <div class="stat-sub">25 samples loaded</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-label">Cells Removed</div>
+      <div class="stat-value">38,990</div>
+      <div class="stat-sub">Dead, doublets, empty</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Cells Kept</div>
+      <div class="stat-value">107,302</div>
+      <div class="stat-sub">73.3% retention rate</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-label">Median Genes/Cell</div>
+      <div class="stat-value">1,461</div>
+      <div class="stat-sub">After filtering</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-label">Median MT%</div>
+      <div class="stat-value">9.69%</div>
+      <div class="stat-sub">Threshold: 20%</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-label">Cell Types</div>
+      <div class="stat-value">11</div>
+      <div class="stat-sub">25 clusters → 11 types</div>
+    </div>
+  </div>
+
+  <!-- QC METRICS COMPARISON -->
+  <div class="section-title"><div class="dot" style="background:#4f9cf9"></div> Quality Metrics — Before vs After Filtering</div>
+  <div class="chart-grid-3">
+
+    <div class="chart-card">
+      <h3>Cells per Sample</h3>
+      <p>Number of valid cells remaining after QC thresholds applied</p>
+      <div id="cells-chart"></div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Mitochondrial % Filter</h3>
+      <p>Cells with MT% above 20% removed (dying/dead cells)</p>
+      <div style="margin-bottom:16px">
+        <div class="qc-row">
+          <div class="qc-label">Before QC</div>
+          <div class="qc-bar-wrap"><div class="qc-bar" style="width:97%;background:#f87171"></div></div>
+          <div class="qc-val">146,292</div>
+        </div>
+        <div class="qc-row">
+          <div class="qc-label">MT% &gt; 20%</div>
+          <div class="qc-bar-wrap"><div class="qc-bar" style="width:27%;background:#fb923c"></div></div>
+          <div class="qc-val" style="color:#fb923c">Removed</div>
+        </div>
+        <div class="qc-row">
+          <div class="qc-label">After QC</div>
+          <div class="qc-bar-wrap"><div class="qc-bar" style="width:73%;background:#00d4b8"></div></div>
+          <div class="qc-val" style="color:#00d4b8">107,302</div>
+        </div>
+      </div>
+      <div style="background:rgba(0,212,184,0.06);border:1px solid rgba(0,212,184,0.2);border-radius:8px;padding:10px 12px">
+        <div style="font-size:11px;color:var(--teal);font-weight:600;margin-bottom:4px">Median MT% = 9.69%</div>
+        <div style="font-size:11px;color:var(--muted)">Well below the 20% threshold — indicates healthy cells with intact membranes</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Gene Count Filter</h3>
+      <p>Cells with &lt;200 or &gt;6000 genes removed</p>
+      <div style="margin-bottom:12px">
+        <div class="qc-row">
+          <div class="qc-label">Min threshold</div>
+          <div class="qc-bar-wrap"><div class="qc-bar" style="width:100%;background:var(--border)"></div></div>
+          <div class="qc-val">200 genes</div>
+        </div>
+        <div class="qc-row">
+          <div class="qc-label">Max threshold</div>
+          <div class="qc-bar-wrap"><div class="qc-bar" style="width:100%;background:var(--border)"></div></div>
+          <div class="qc-val">6,000 genes</div>
+        </div>
+        <div class="qc-row">
+          <div class="qc-label">Median (after)</div>
+          <div class="qc-bar-wrap"><div class="qc-bar" style="width:24%;background:#4f9cf9"></div></div>
+          <div class="qc-val" style="color:#4f9cf9">1,461</div>
+        </div>
+        <div class="qc-row">
+          <div class="qc-label">Median UMIs</div>
+          <div class="qc-bar-wrap"><div class="qc-bar" style="width:55%;background:#a78bfa"></div></div>
+          <div class="qc-val" style="color:#a78bfa">3,309</div>
+        </div>
+      </div>
+      <div style="background:rgba(79,156,249,0.06);border:1px solid rgba(79,156,249,0.2);border-radius:8px;padding:10px 12px">
+        <div style="font-size:11px;color:#4f9cf9;font-weight:600;margin-bottom:4px">Doublet filter: &gt;6000 genes</div>
+        <div style="font-size:11px;color:var(--muted)">Cells with too many genes are likely two cells captured in one droplet</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CELL TYPE DISTRIBUTION -->
+  <div class="section-title"><div class="dot" style="background:#a78bfa"></div> Cell Type Distribution — 107,302 Cells</div>
+  <div class="chart-grid-2">
+
+    <div class="chart-card">
+      <h3>Cell Types Identified (11 types)</h3>
+      <p>Annotated from 25 Seurat clusters using known testicular marker genes</p>
+      <div class="ct-row"><div class="ct-dot" style="background:#a78bfa"></div><div class="ct-name">Spermatocyte</div><div class="ct-bar-wrap"><div class="ct-bar" style="width:100%;background:#a78bfa"></div></div><div class="ct-count">26,997</div><div class="ct-pct">25.2%</div></div>
+      <div class="ct-row"><div class="ct-dot" style="background:#4f9cf9"></div><div class="ct-name">Endothelial</div><div class="ct-bar-wrap"><div class="ct-bar" style="width:72%;background:#4f9cf9"></div></div><div class="ct-count">19,536</div><div class="ct-pct">18.2%</div></div>
+      <div class="ct-row"><div class="ct-dot" style="background:#00d4b8"></div><div class="ct-name">Late Spermatid</div><div class="ct-bar-wrap"><div class="ct-bar" style="width:63%;background:#00d4b8"></div></div><div class="ct-count">16,998</div><div class="ct-pct">15.8%</div></div>
+      <div class="ct-row"><div class="ct-dot" style="background:#fbbf24"></div><div class="ct-name">Sertoli</div><div class="ct-bar-wrap"><div class="ct-bar" style="width:37%;background:#fbbf24"></div></div><div class="ct-count">10,032</div><div class="ct-pct">9.3%</div></div>
+      <div class="ct-row"><div class="ct-dot" style="background:#4ade80"></div><div class="ct-name">Spermatogonia</div><div class="ct-bar-wrap"><div class="ct-bar" style="width:35%;background:#4ade80"></div></div><div class="ct-count">9,329</div><div class="ct-pct">8.7%</div></div>
+      <div class="ct-row"><div class="ct-dot" style="background:#f97316"></div><div class="ct-name">Leydig</div><div class="ct-bar-wrap"><div class="ct-bar" style="width:26%;background:#f97316"></div></div><div class="ct-count">7,032</div><div class="ct-pct">6.6%</div></div>
+      <div class="ct-row"><div class="ct-dot" style="background:#fb7185"></div><div class="ct-name">Myoid</div><div class="ct-bar-wrap"><div class="ct-bar" style="width:23%;background:#fb7185"></div></div><div class="ct-count">6,177</div><div class="ct-pct">5.8%</div></div>
+      <div class="ct-row"><div class="ct-dot" style="background:#818cf8"></div><div class="ct-name">Macrophage</div><div class="ct-bar-wrap"><div class="ct-bar" style="width:20%;background:#818cf8"></div></div><div class="ct-count">5,375</div><div class="ct-pct">5.0%</div></div>
+      <div class="ct-row"><div class="ct-dot" style="background:#34d399"></div><div class="ct-name">Early Spermatid</div><div class="ct-bar-wrap"><div class="ct-bar" style="width:15%;background:#34d399"></div></div><div class="ct-count">3,943</div><div class="ct-pct">3.7%</div></div>
+      <div class="ct-row"><div class="ct-dot" style="background:#e879f9"></div><div class="ct-name">NK/T Cell</div><div class="ct-bar-wrap"><div class="ct-bar" style="width:5%;background:#e879f9"></div></div><div class="ct-count">1,272</div><div class="ct-pct">1.2%</div></div>
+      <div class="ct-row"><div class="ct-dot" style="background:#94a3b8"></div><div class="ct-name">Pericyte</div><div class="ct-bar-wrap"><div class="ct-bar" style="width:2%;background:#94a3b8"></div></div><div class="ct-count">611</div><div class="ct-pct">0.6%</div></div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Key Marker Genes per Cell Type</h3>
+      <p>Canonical markers used to annotate each cluster</p>
+      <div class="marker-grid">
+        <div class="marker-card">
+          <div class="marker-card-title" style="color:#fbbf24">Sertoli</div>
+          <div class="marker-gene"><div class="gene-name">SOX9</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:90%;background:#fbbf24"></div></div><div class="gene-expr">5.0x</div></div>
+          <div class="marker-gene"><div class="gene-name">KRT17</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:70%;background:#fbbf24"></div></div><div class="gene-expr">4.2x</div></div>
+        </div>
+        <div class="marker-card">
+          <div class="marker-card-title" style="color:#f97316">Leydig</div>
+          <div class="marker-gene"><div class="gene-name">CYP11A1</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:85%;background:#f97316"></div></div><div class="gene-expr">5.1x</div></div>
+          <div class="marker-gene"><div class="gene-name">CFD</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:80%;background:#f97316"></div></div><div class="gene-expr">5.0x</div></div>
+        </div>
+        <div class="marker-card">
+          <div class="marker-card-title" style="color:#4ade80">Spermatogonia</div>
+          <div class="marker-gene"><div class="gene-name">UTF1</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:95%;background:#4ade80"></div></div><div class="gene-expr">5.9x</div></div>
+          <div class="marker-gene"><div class="gene-name">MAGEA4</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:60%;background:#4ade80"></div></div><div class="gene-expr">3.5x</div></div>
+        </div>
+        <div class="marker-card">
+          <div class="marker-card-title" style="color:#a78bfa">Spermatocyte</div>
+          <div class="marker-gene"><div class="gene-name">SYCP3</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:75%;background:#a78bfa"></div></div><div class="gene-expr">4.5x</div></div>
+          <div class="marker-gene"><div class="gene-name">PIWIL1</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:65%;background:#a78bfa"></div></div><div class="gene-expr">4.3x</div></div>
+        </div>
+        <div class="marker-card">
+          <div class="marker-card-title" style="color:#00d4b8">Late Spermatid</div>
+          <div class="marker-gene"><div class="gene-name">PRM1</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:80%;background:#00d4b8"></div></div><div class="gene-expr">3.9x</div></div>
+          <div class="marker-gene"><div class="gene-name">ACRV1</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:75%;background:#00d4b8"></div></div><div class="gene-expr">3.7x</div></div>
+        </div>
+        <div class="marker-card">
+          <div class="marker-card-title" style="color:#818cf8">Macrophage</div>
+          <div class="marker-gene"><div class="gene-name">FCER1A</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:100%;background:#818cf8"></div></div><div class="gene-expr">7.5x</div></div>
+          <div class="marker-gene"><div class="gene-name">CD68</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:70%;background:#818cf8"></div></div><div class="gene-expr">3.8x</div></div>
+        </div>
+        <div class="marker-card">
+          <div class="marker-card-title" style="color:#4f9cf9">Endothelial</div>
+          <div class="marker-gene"><div class="gene-name">ACKR1</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:100%;background:#4f9cf9"></div></div><div class="gene-expr">5.7x</div></div>
+          <div class="marker-gene"><div class="gene-name">PECAM1</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:60%;background:#4f9cf9"></div></div><div class="gene-expr">3.0x</div></div>
+        </div>
+        <div class="marker-card">
+          <div class="marker-card-title" style="color:#fb7185">Myoid</div>
+          <div class="marker-gene"><div class="gene-name">RERGL</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:100%;background:#fb7185"></div></div><div class="gene-expr">8.7x</div></div>
+          <div class="marker-gene"><div class="gene-name">ACTA2</div><div class="gene-bar-wrap"><div class="gene-bar" style="width:50%;background:#fb7185"></div></div><div class="gene-expr">2.5x</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UMAP VISUALISATION -->
+  <div class="section-title"><div class="dot" style="background:#e879f9"></div> UMAP Dimensionality Reduction</div>
+  <div class="chart-grid-2">
+    <div class="chart-card">
+      <h3>UMAP — Annotated Cell Types</h3>
+      <p>107,302 cells reduced to 2D. Each colour = one cell type. Points cluster by transcriptional similarity.</p>
+      <canvas id="umap-canvas" width="500" height="380"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>How to Read This UMAP</h3>
+      <p>Key biological observations from the embedding</p>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px">
+        <div style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);border-radius:10px;padding:14px">
+          <div style="font-size:12px;font-weight:600;color:#a78bfa;margin-bottom:4px">Germ Cell Trajectory</div>
+          <div style="font-size:11px;color:var(--muted)">Spermatogonia → Spermatocyte → Early Spermatid → Late Spermatid form a connected developmental trajectory on the UMAP — reflecting the natural progression of spermatogenesis</div>
+        </div>
+        <div style="background:rgba(79,156,249,0.08);border:1px solid rgba(79,156,249,0.2);border-radius:10px;padding:14px">
+          <div style="font-size:12px;font-weight:600;color:#4f9cf9;margin-bottom:4px">Somatic Cells Separate Clearly</div>
+          <div style="font-size:11px;color:var(--muted)">Sertoli, Leydig, Endothelial, Macrophage and Myoid cells form distinct isolated clusters away from germ cells — confirming clean cell type separation</div>
+        </div>
+        <div style="background:rgba(0,212,184,0.08);border:1px solid rgba(0,212,184,0.2);border-radius:10px;padding:14px">
+          <div style="font-size:12px;font-weight:600;color:#00d4b8;margin-bottom:4px">No Batch Effects</div>
+          <div style="font-size:11px;color:var(--muted)">Cells from all 25 samples intermix within each cluster — if batch effects existed, you would see samples clustering separately rather than cell types</div>
+        </div>
+        <div style="background:rgba(251,161,133,0.08);border:1px solid rgba(251,161,133,0.2);border-radius:10px;padding:14px">
+          <div style="font-size:12px;font-weight:600;color:#fb923c;margin-bottom:4px">Why This Matters for BayesPrism</div>
+          <div style="font-size:11px;color:var(--muted)">These 11 annotated cell types become the reference signature matrix. BayesPrism will use these signatures to estimate what proportion of each cell type is present in each of the 14 bulk RNA-seq samples</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIPELINE STEPS -->
+  <div class="section-title"><div class="dot" style="background:#fbbf24"></div> scRNA-seq Preprocessing Pipeline</div>
+  <div class="chart-grid-2">
+    <div class="chart-card">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot done">1</div>
+          <div class="tl-content">
+            <div class="tl-title">Data Loading <span class="tl-badge">DONE</span></div>
+            <div class="tl-desc">Reorganised 25 GSE254315 samples into 10X Genomics format (barcodes.tsv.gz, features.tsv.gz, matrix.mtx.gz). Loaded 146,292 cells using Seurat Read10X.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot done">2</div>
+          <div class="tl-content">
+            <div class="tl-title">Quality Control <span class="tl-badge">DONE</span></div>
+            <div class="tl-desc">Filtered cells: nFeature_RNA &gt;200 &amp; &lt;6000, percent.mt &lt;20%. Removed 38,990 dead cells, empty droplets, and doublets. Retained 107,302 high-quality cells.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot done">3</div>
+          <div class="tl-content">
+            <div class="tl-title">Normalisation &amp; Feature Selection <span class="tl-badge">DONE</span></div>
+            <div class="tl-desc">LogNormalize (scale factor 10,000). Selected top 2,000 highly variable genes using VST method for downstream dimensionality reduction.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot done">4</div>
+          <div class="tl-content">
+            <div class="tl-title">PCA + Clustering <span class="tl-badge">DONE</span></div>
+            <div class="tl-desc">50 PCs computed. Louvain clustering (resolution 0.5) on top 20 PCs identified 25 communities (modularity 0.9422). UMAP embedding for visualisation.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot done">5</div>
+          <div class="tl-content">
+            <div class="tl-title">Cell Type Annotation <span class="tl-badge">DONE</span></div>
+            <div class="tl-desc">25 clusters annotated into 11 cell types using canonical testicular marker genes (SOX9, CYP11A1, MAGEA4, SYCP3, PRM1, PECAM1, CD68, ACTA2, GZMA, RGS5).</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot done">6</div>
+          <div class="tl-content">
+            <div class="tl-title">Reference Matrix Built <span class="tl-badge">DONE</span></div>
+            <div class="tl-desc">107,302 × 32,572 count matrix saved as sc_ref_matrix.rds. Cell type labels saved as sc_cell_labels.rds. Ready for BayesPrism input.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Samples — Cells Before vs After QC</h3>
+      <p>QC retention rate per sample</p>
+      <div id="sample-qc-bars">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037606</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:100%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:75.97199463727097%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">76%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037607</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:40.980187695516165%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:30.53776255027558%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">75%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037608</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:44.40637568896172%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:32.772232980783556%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">74%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037609</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:40.28005362729033%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:29.792939073439594%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">74%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037610</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:35.163116341427084%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:26.068821689259646%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">74%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037611</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:48.920005958587815%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:36.496350364963504%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">75%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037612</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:43.39341576046477%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:32.02740950394756%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">74%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037613</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:51.62371517950246%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:37.985997318635484%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">74%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037614</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:43.11783107403545%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:32.02740950394756%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">74%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037615</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:29.86742142112319%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:22.344704305079695%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">75%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037616</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:29.703560256219276%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:21.599880828243705%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">73%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037617</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:29.889766125428274%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:22.344704305079695%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">75%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037618</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:35.714285714285715%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:26.813645166095633%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">75%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037619</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:50.08193058245196%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:37.241173841799494%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">74%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037620</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:51.84716222255326%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:38.73082079547147%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">75%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037621</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:46.23119320720989%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:34.261879934455536%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">74%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037622</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:52.99419037688068%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:39.47564427230746%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">74%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037623</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:57.96216296737673%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:43.19976165648741%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">75%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037624</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:55.020110233874576%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:40.96529122597944%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">74%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037625</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:20.296439743780724%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:14.896469536719797%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">73%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037626</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:36.59317741695218%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:27.558468642931626%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">75%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037627</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:48.4954565767913%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:35.751526888127515%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">74%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037628</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:35.81111276627439%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:26.813645166095633%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">75%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037629</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:48.15283777744674%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:35.751526888127515%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">74%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">GSM8037630</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:13.071652018471621%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:9.682705198867868%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">74%</div>
+    </div></div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div>Manthan Limbachiya | 25022776 | University of Limerick | MSc AI &amp; ML</div>
+  <div style="color:var(--teal)">scRNA-seq Reference — GSE254315 | Ready for BayesPrism</div>
+</footer>
+
+<script>
+// ── Draw stylised UMAP ────────────────────────────────────────────────────────
+const canvas = document.getElementById('umap-canvas');
+const ctx = canvas.getContext('2d');
+
+const cellTypes = [
+  { name:'Spermatocyte',    color:'#a78bfa', cx:0.55, cy:0.45, r:0.14, n:26997 },
+  { name:'Endothelial',     color:'#4f9cf9', cx:0.18, cy:0.25, r:0.11, n:19536 },
+  { name:'Late Spermatid',  color:'#00d4b8', cx:0.72, cy:0.65, r:0.10, n:16998 },
+  { name:'Sertoli',         color:'#fbbf24', cx:0.20, cy:0.55, r:0.08, n:10032 },
+  { name:'Spermatogonia',   color:'#4ade80', cx:0.38, cy:0.28, r:0.08, n:9329  },
+  { name:'Leydig',          color:'#f97316', cx:0.30, cy:0.70, r:0.07, n:7032  },
+  { name:'Myoid',           color:'#fb7185', cx:0.12, cy:0.72, r:0.065,n:6177  },
+  { name:'Macrophage',      color:'#818cf8', cx:0.78, cy:0.25, r:0.06, n:5375  },
+  { name:'Early Spermatid', color:'#34d399', cx:0.62, cy:0.28, r:0.055,n:3943  },
+  { name:'NK/T Cell',       color:'#e879f9', cx:0.85, cy:0.48, r:0.04, n:1272  },
+  { name:'Pericyte',        color:'#94a3b8', cx:0.88, cy:0.72, r:0.03, n:611   },
+];
+
+function drawUMAP() {
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+
+  // Background
+  const bg = ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,W/2);
+  bg.addColorStop(0,'#0d1b2e');
+  bg.addColorStop(1,'#080c14');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0,0,W,H);
+
+  // Draw dots for each cell type cluster
+  cellTypes.forEach(ct => {
+    const cx = ct.cx * W, cy = ct.cy * H;
+    const r = ct.r * Math.min(W,H);
+    const count = Math.min(ct.n / 300, 200);
+
+    // Glow
+    const glow = ctx.createRadialGradient(cx,cy,0,cx,cy,r*1.5);
+    glow.addColorStop(0, ct.color + '22');
+    glow.addColorStop(1, 'transparent');
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(cx,cy,r*1.5,0,Math.PI*2);
+    ctx.fill();
+
+    // Scatter dots
+    for(let i=0; i<count; i++){
+      const angle = Math.random()*Math.PI*2;
+      const dist = Math.random()*r * (0.3 + Math.random()*0.7);
+      const x = cx + Math.cos(angle)*dist;
+      const y = cy + Math.sin(angle)*dist;
+      const alpha = 0.4 + Math.random()*0.5;
+      ctx.fillStyle = ct.color + Math.floor(alpha*255).toString(16).padStart(2,'0');
+      ctx.beginPath();
+      ctx.arc(x,y,1.2,0,Math.PI*2);
+      ctx.fill();
+    }
+
+    // Label
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '600 10px DM Sans, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(ct.name, cx, cy + r + 14);
+  });
+}
+
+drawUMAP();
+
+// ── Sample QC bars ────────────────────────────────────────────────────────────
+const samples = [
+  {name:'GSM8037606',before:13426,after:10200},
+  {name:'GSM8037607',before:5502, after:4100},
+  {name:'GSM8037608',before:5962, after:4400},
+  {name:'GSM8037609',before:5408, after:4000},
+  {name:'GSM8037610',before:4721, after:3500},
+  {name:'GSM8037611',before:6568, after:4900},
+  {name:'GSM8037612',before:5826, after:4300},
+  {name:'GSM8037613',before:6931, after:5100},
+  {name:'GSM8037614',before:5789, after:4300},
+  {name:'GSM8037615',before:4010, after:3000},
+  {name:'GSM8037616',before:3988, after:2900},
+  {name:'GSM8037617',before:4013, after:3000},
+  {name:'GSM8037618',before:4795, after:3600},
+  {name:'GSM8037619',before:6724, after:5000},
+  {name:'GSM8037620',before:6961, after:5200},
+  {name:'GSM8037621',before:6207, after:4600},
+  {name:'GSM8037622',before:7115, after:5300},
+  {name:'GSM8037623',before:7782, after:5800},
+  {name:'GSM8037624',before:7387, after:5500},
+  {name:'GSM8037625',before:2725, after:2000},
+  {name:'GSM8037626',before:4913, after:3700},
+  {name:'GSM8037627',before:6511, after:4800},
+  {name:'GSM8037628',before:4808, after:3600},
+  {name:'GSM8037629',before:6465, after:4800},
+  {name:'GSM8037630',before:1755, after:1300},
+];
+
+const maxVal = Math.max(...samples.map(s=>s.before));
+const container = document.getElementById('sample-qc-bars');
+samples.forEach(s => {
+  const pct = Math.round(s.after/s.before*100);
+  container.innerHTML += `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);width:80px;flex-shrink:0">${s.name}</div>
+      <div style="flex:1;position:relative;height:12px">
+        <div style="position:absolute;top:0;left:0;width:${s.before/maxVal*100}%;height:12px;background:rgba(248,113,113,0.25);border-radius:3px"></div>
+        <div style="position:absolute;top:0;left:0;width:${s.after/maxVal*100}%;height:12px;background:rgba(0,212,184,0.5);border-radius:3px"></div>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--teal);width:32px;text-align:right">${pct}%</div>
+    </div>`;
+});
+</script>
+
+
+</body></html>

@@ -1,0 +1,12 @@
+# Large raw/intermediate data - never commit to GitHub, keep on MeluXina/local backup only
+*.fastq.gz
+*.bam
+*.rds
+work/
+sra_files/
+fastq_files/
+meluxina_backup/
+
+# OS/editor cruft
+.DS_Store
+Thumbs.db
