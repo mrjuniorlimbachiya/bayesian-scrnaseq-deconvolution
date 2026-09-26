@@ -1,3 +1,5 @@
+Bayesian deconvolution pipeline recovering cell-type composition from bulk RNA-seq using an independent single-cell reference, built end-to-end on HPC infrastructure.
+
 # Supporting Material — Bayesian Cell-Type Deconvolution of Bulk RNA-seq Data in Human Testicular Tissue Across Male Infertility Phenotypes
 
 <p  align = "center">
